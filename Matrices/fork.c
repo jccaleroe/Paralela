@@ -4,32 +4,26 @@
 #include <time.h>
 #include <unistd.h>
 
-int N, processes_num, processes_id;
-float **A, **B, aux = (float)(RAND_MAX);
-int a, b, tam;
-
 int main(){
+
+    int N, processes_num, processes_id;
+    int a, b, tam;
+
     printf("Please enter matrix size N\n");
     scanf("%d", &N);
     printf("Please enter number of processes\n");
     scanf("%d", &processes_num);
 
+    float A[N][N], B[N][N], max_num = (float)(RAND_MAX);
+
     float *m[N], *m2[N];
     int i, j, pos;
-
-    for( i = 0; i < N; i++){
-        m[i] = (float *) malloc ( N * sizeof(float) );
-        m2[i] = (float *) malloc ( N * sizeof(float) );
-    }
-
-    A = m;
-    B = m2;
 
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = aux/(float)(rand());
-            B[i][j] = aux/(float)(rand());
+            A[i][j] = max_num / (float)(rand());
+            B[i][j] = max_num / (float)(rand());
         }
     }
 

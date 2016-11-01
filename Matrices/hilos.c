@@ -5,26 +5,12 @@
 #include <pthread.h>
 
 int N, threads_num;
-float **A, **B, **C, aux = (float)(RAND_MAX);
+float **A, **B, **C, max_rand = (float)(RAND_MAX);
 
 void error( char *msg ){
     fprintf( stderr, "%s: %s\n", msg, strerror(errno) );
     exit(1);
 }
-
-//N = 4, hilos = 4
-//hilo 0: 0 -> 4
-//hilo 1: 4 -> 8
-//hilo 2: 8 -> 12
-//hilo 3: 12 -> 16
-
-//N = 8, hilos = 6
-//hilo 0: 0 -> 9
-//hilo 1: 10 -> 20
-//hilo 2: 20 -> 30
-//hilo 3: 30 -> 40
-//hilo 4: 40 -> 50
-//hilo 5: 50 -> 64
 
 void* multiply(void *tNo){
  	long t_no = (long) tNo;
@@ -71,8 +57,8 @@ int main(){
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = aux / (float) (rand());
-            B[i][j] = aux / (float) (rand());
+            A[i][j] = max_rand / (float) (rand());
+            B[i][j] = max_rand / (float) (rand());
         }
     }
 
@@ -110,4 +96,3 @@ int main(){
 
     printf("Time spent: %0.4lf seconds\n", time_spent);
 }
-
