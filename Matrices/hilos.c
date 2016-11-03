@@ -35,11 +35,18 @@ void* multiply(void *tNo){
     }
 }
 
-int main(){
-    printf("Please enter matrix size N\n");
-    scanf("%d", &N);
-    printf("Please enter number of threads\n");
-    scanf("%d", &threads_num);
+int main(int argc, char *argv[]){
+
+    if(argc != 3){
+        printf("Please enter matrix size N\n");
+        scanf("%d", &N);
+        printf("Please enter number of threads\n");
+        scanf("%d", &threads_num);
+    }
+    else{
+        N = atoi(argv[1]);
+        threads_num = atoi(argv[2]);
+    }
 
     float *m[N], *m2[N], *m3[N];
     int i, j;

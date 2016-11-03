@@ -20,9 +20,15 @@ void multiply(){
     }
 }
 
-int main(){
-    printf("Please enter matrix size N\n");
-    scanf("%d", &N);
+int main(int argc, char *argv[]){
+
+    if (argc != 2){
+        printf("Please enter matrix size N\n");
+        scanf("%d", &N);
+    }
+    else
+        N = atoi(argv[1]);
+
 
     float *m[N], *m2[N], *m3[N];
     int i, j;

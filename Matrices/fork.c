@@ -8,11 +8,18 @@ int N, processes_num, processes_id;
 float **A, **B, aux = (float)(RAND_MAX);
 int a, b, tam;
 
-int main(){
-    printf("Please enter matrix size N\n");
-    scanf("%d", &N);
-    printf("Please enter number of processes\n");
-    scanf("%d", &processes_num);
+int main(int argc, char *argv[]){
+
+    if(argc != 3){
+        printf("Please enter matrix size N\n");
+        scanf("%d", &N);
+        printf("Please enter number of processes\n");
+        scanf("%d", &processes_num);
+    }
+    else{
+        N = atoi(argv[1]);
+        processes_num = atoi(argv[2]);
+    }
 
     float *m[N], *m2[N];
     int i, j, pos;
