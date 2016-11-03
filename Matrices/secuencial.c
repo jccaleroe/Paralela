@@ -2,26 +2,13 @@
 #include <time.h>
 #include <stdlib.h>
 
-int main(){
+int N;
+float **A, **B, **C, aux = (float)(RAND_MAX);
 
-    int N;
+void multiply(){
 
-    printf("Please enter matrix size N\n");
-    scanf("%d", &N);
-
-    float A[N][N], B[N][N], C[N][N], max_rand = (float)(RAND_MAX), tmp;
     int i, j, k;
-
-    srand(time(NULL));
-    for( i = 0; i < N; i++){
-        for( j = 0; j < N; j++){
-            A[i][j] = max_rand / (float)(rand());
-            B[i][j] = max_rand / (float)(rand());
-        }
-    }
-
-    clock_t begin, end;
-    begin = clock();
+    float tmp;
 
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
@@ -31,17 +18,36 @@ int main(){
             C[i][j] = tmp;
         }
     }
+}
 
+int main(){
+    printf("Please enter matrix size N\n");
+    scanf("%d", &N);
 
-    end = clock();
-    double time_spent = (double) (end-begin) / CLOCKS_PER_SEC;
+    float *m[N], *m2[N], *m3[N];
+    int i, j;
 
+    for( i = 0; i < N; i++){
+        m[i] = (float *) malloc ( N * sizeof(float) );
+        m2[i] = (float *) malloc ( N * sizeof(float) );
+        m3[i] = (float *) malloc ( N * sizeof(float) );
+    }
+
+    A = m; B = m2; C = m3;
+
+    srand(time(NULL));
+    for( i = 0; i < N; i++){
+        for( j = 0; j < N; j++){
+            A[i][j] = aux/(float)(rand());
+            B[i][j] = aux/(float)(rand());
+        }
+    }
+
+    multiply();
 
 //    for( i = 0; i < N; i++){
 //        for( j = 0; j < N; j++)
 //          printf("%0.1f ", C[i][j]);
 //        printf("\n");
 //    }
-
-    printf("Time spent: %0.4lf seconds\n", time_spent);
 }

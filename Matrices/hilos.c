@@ -5,7 +5,7 @@
 #include <pthread.h>
 
 int N, threads_num;
-float **A, **B, **C, max_rand = (float)(RAND_MAX);
+float **A, **B, **C, aux = (float)(RAND_MAX);
 
 void error( char *msg ){
     fprintf( stderr, "%s: %s\n", msg, strerror(errno) );
@@ -57,8 +57,8 @@ int main(){
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = max_rand / (float) (rand());
-            B[i][j] = max_rand / (float) (rand());
+            A[i][j] = aux / (float) (rand());
+            B[i][j] = aux / (float) (rand());
         }
     }
 
@@ -69,9 +69,6 @@ int main(){
 //            B[i][j] = i*N+j;
 //        }
 //    }
-
-    clock_t begin, end;
-    begin = clock();
 
     pthread_t threads[threads_num];
 
@@ -85,14 +82,10 @@ int main(){
         if(pthread_join( threads[n], &result ) == -1)
             error("Can't join thread");
 
-    end = clock();
-    double time_spent = (double) (end - begin) / CLOCKS_PER_SEC;
-
 //    for( i = 0; i < N; i++){
 //        for( j = 0; j < N; j++)
 //          printf("%0.1f ", C[i][j]);
 //        printf("\n");
 //    }
-
-    printf("Time spent: %0.4lf seconds\n", time_spent);
 }
+
