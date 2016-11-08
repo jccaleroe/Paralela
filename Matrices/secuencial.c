@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 int N;
-float **A, **B, **C, aux = (float)(RAND_MAX);
+float **A, **B, **C, max_num = (float)(RAND_MAX);
 
 void multiply(){
 
@@ -44,8 +44,8 @@ int main(int argc, char *argv[]){
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = aux/(float)(rand());
-            B[i][j] = aux/(float)(rand());
+            A[i][j] = max_num / (float)(rand());
+            B[i][j] = max_num / (float)(rand());
         }
     }
 
@@ -56,4 +56,10 @@ int main(int argc, char *argv[]){
 //          printf("%0.1f ", C[i][j]);
 //        printf("\n");
 //    }
+
+    for( i = 0; i < N; i++){
+        free(m[i]);
+        free(m2[i]);
+        free(m3[i]);
+    }
 }

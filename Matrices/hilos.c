@@ -3,9 +3,10 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <pthread.h>
+#include <string.h>
 
 int N, threads_num;
-float **A, **B, **C, aux = (float)(RAND_MAX);
+float **A, **B, **C, max_num = (float)(RAND_MAX);
 
 void error( char *msg ){
     fprintf( stderr, "%s: %s\n", msg, strerror(errno) );
@@ -64,12 +65,12 @@ int main(int argc, char *argv[]){
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = aux / (float) (rand());
-            B[i][j] = aux / (float) (rand());
+            A[i][j] = max_num / (float) (rand());
+            B[i][j] = max_num / (float) (rand());
         }
     }
 
-    //test case
+//    test case
 //    for( i = 0; i < N; i++){
 //        for( j = 0; j < N; j++){
 //            A[i][j] = i*N+j;
@@ -81,18 +82,26 @@ int main(int argc, char *argv[]){
 
     long n;
     for( n = 0; n < threads_num; n++)
-	if( pthread_create( &threads[n], NULL, multiply, (void*) n )  == -1 )
-		error("Can't create thread");
+        if( pthread_create( &threads[n], NULL, multiply, (void*) n )  == -1 )
+            error("Can't create thread");
+
 
     void* result;
     for( n = 0; n < threads_num; n++ )
         if(pthread_join( threads[n], &result ) == -1)
             error("Can't join thread");
 
+//    print matrix
 //    for( i = 0; i < N; i++){
 //        for( j = 0; j < N; j++)
 //          printf("%0.1f ", C[i][j]);
 //        printf("\n");
 //    }
+
+    for( i = 0; i < N; i++){
+        free(m[i]);
+        free(m2[i]);
+        free(m3[i]);
+    }
 }
 
