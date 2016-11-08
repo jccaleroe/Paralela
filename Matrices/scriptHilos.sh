@@ -4,7 +4,7 @@ for(( size = 16; size <= 1024; size *= 2))
 	do
 	printf "\n"
 	echo "Matriz N = " $size
-	for hilos in 1 2 3 8 16
+	for hilos in 1 2 4 8 16
 	do
 	printf "\n"
 	echo "Con " $hilos " hilos"

@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <time.h>
+#include <errno.h>
+#include <string.h>
 #include <unistd.h>
 
-int N, processes_num, processes_id;
-float **A, **B, aux = (float)(RAND_MAX);
-int a, b, tam;
+int N, processes_num, processes_id, a, b, tam;
+float **A, **B, max_num = (float)(RAND_MAX);
+
+void error( char *msg ){
+    fprintf( stderr, "%s: %s\n", msg, strerror(errno) );
+    exit(1);
+}
 
 int main(int argc, char *argv[]){
 
@@ -34,12 +39,12 @@ int main(int argc, char *argv[]){
     srand(time(NULL));
     for( i = 0; i < N; i++){
         for( j = 0; j < N; j++){
-            A[i][j] = aux/(float)(rand());
-            B[i][j] = aux/(float)(rand());
+            A[i][j] = max_num / (float)(rand());
+            B[i][j] = max_num / (float)(rand());
         }
     }
 
-    //test case
+//    test case
 //    for( i = 0; i < N; i++){
 //        for( j = 0; j < N; j++){
 //            A[i][j] = i*N+j;
@@ -53,10 +58,8 @@ int main(int argc, char *argv[]){
     pid_t pid;
 
     for ( i = 0; i < processes_num - 1; i++ ){
-        if( pipe( pipes[i] ) == -1){
+        if( pipe( pipes[i] ) == -1)
             error("Can't create pipe");
-            return -1;
-        }
 
         a = cells_per_process * (i+1);
         b = cells_per_process * (i + 2);
@@ -68,10 +71,8 @@ int main(int argc, char *argv[]){
         tam = b - a;
         pid = fork();
 
-        if( pid == -1){
+        if( pid == -1)
             error("Can't fork");
-            return -1;
-        }
 
         if ( !pid )
             break;
@@ -142,6 +143,10 @@ int main(int argc, char *argv[]){
 //                printf("%0.1f ", C[i][j]);
 //            printf("\n");
 //        }
+        for( i = 0; i < N; i++){
+            free(m[i]);
+            free(m2[i]);
+        }
     }
 }
 
