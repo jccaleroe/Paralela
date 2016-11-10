@@ -56,6 +56,11 @@ int main(int argc, char *argv[]){
 		threads_per_block = atoi(argv[3]);
     }
 	
+	cudaEvent_t start, stop;
+	float elapsedTime;
+	cudaEventCreate(&start);
+	cudaEventRecord(start, 0);
+
 	int size = N * N * sizeof(float), i, j;
 
 	A = (float *) malloc ( size );
@@ -102,5 +107,12 @@ int main(int argc, char *argv[]){
 //    }
 
     free(A); free(B); free(C);
+
+	cudaEventCreate(&stop);
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTime, start, stop);
+	printf("Elapsed time: %f ms\n", elapsedTime);
+
 	GPUERRCHK ( cudaDeviceReset() );
 }
